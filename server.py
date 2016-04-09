@@ -38,7 +38,25 @@ class PIClient(asyncore.dispatcher):
 	def handle_close(self):
 		self.close()
 	
+	def initiate_reconnect_with_server(self):
+		print("Attempting to reconnect to server...")
+		asyncore.dispatcher.__init__(self)
+		self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
+		self.connect((HOST, PORT))
+		self.send(OPCODE_SERVER_LOGIN + ' ' + PASSWD + '\n')
+		self.buffer = OPCODE_SERVER_LOGIN + ' ' + PASSWD + '\n'
+		self.drinkmachine = drink.drinkMachine()
+		self.bufferLock = False
+		noopThread = self.noopThread(self)
+		noopThread.start()
+
+	def handle_error(self):
+		print("Problem reaching server...")
+		self.initiate_reconnect_with_server()
+
+
 	def commandSwitch(self,receivedBuffer):
+		print ("RESERVES ARE LOW, FEED THE NEEDY")
 		print (receivedBuffer)	
 		if OPCODE_TINI_LOGIN_ACK == receivedBuffer[0]:
 			print 'ACK!'
@@ -99,6 +117,7 @@ class PIClient(asyncore.dispatcher):
 			threading.Thread.__init__(self)
 			self.piclient = piclient
 			self.firstrun = True
+			self.bufferLock = False
 		def run(self):
 			while(True):
 				if (self.firstrun == True):

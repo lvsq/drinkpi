@@ -9,7 +9,7 @@ class drinkMachine():
 	def __init__ (self):
 		self.slots = []
 		self.sensors = []
-		for item in open('config/machine.config'):
+		for item in open('config/bigdrink.config'):
 			if (item[:2] == '05'):
 				self.slots.append(slot(item.rstrip()))
 			elif (item[:2] == '28'):
@@ -93,16 +93,20 @@ class sensor():
 
 	def getTemp(self):
 		try:
-			tempFile = open(''.join(['/mnt/w1/', self.idNumber, '/fasttemp']))
+			tempFile = open(''.join(['/mnt/w1/', self.idNumber, '/temperature12']))
 			text = tempFile.read()
 			tempFile.close()
+			#celsius from the onewire
 			temperature = text.strip()
+			print "Celsius is: " + temperature
+			f_temperature = float(temperature) * (9.0/5) + 32
+			print "Farenheight is " + str(f_temperature)
 			#print temperature
 			#temperature = (float(text.split('\n')[1].split(' ')[9][2:]) / 1000) * (9/5) + 32
 		except IOError:
 			return -1
 		#print temperature
-		return temperature
+		return f_temperature
 
 if __name__ == '__main__':
 	drinkmachine = drinkMachine()
