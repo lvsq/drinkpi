@@ -1,0 +1,53 @@
+#! /bin/sh
+# /etc/init.d/drink
+#
+
+### BEGIN INIT INFO
+# Provides:          drink_daemon
+# Required-Start:    owfs fuse
+# Required-Stop:    
+# Default-Start:     2 3 4 5 
+# Default-Stop:      0 1 6 
+# Short-Description: Starts the drink daemon at boot time
+# Description:       Enable drink service provided by daemon.
+### END INIT INFO
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+  start)
+    OLDPATH="$(pwd)"
+    if [ -f /var/lock/drink ]
+      then
+        echo "drink daemon already running"
+        exit 1   
+    fi  
+    touch /var/lock/drink
+    echo "Starting drink service"
+    cd /root/current/drinkpi
+    echo "Starting the drink client on detached screen 'drink'"
+    screen -dmS drink python server.py
+    echo "drink should be running now"
+    cd "$OLDPATH"
+    ;;  
+  stop)
+    rm /var/lock/drink
+    echo "Stopping drink"
+    screen -S drink -X quit
+    echo "Drink should have stopped. Might wanna check anyway."
+    ;;  
+  restart|reload)
+    "$0" stop && sleep 2 && "$0" start
+    ;;  
+  status)
+    screen -ls drink
+    ;;  
+  attach)
+    screen -r drink
+    ;;  
+  *)  
+    echo "Usage: service drink {start|stop|restart}"
+    exit 1
+    ;;  
+esac
+
+exit 0
