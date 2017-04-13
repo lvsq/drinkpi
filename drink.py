@@ -14,7 +14,7 @@ class drinkMachine():
 				self.slots.append(slot(item.rstrip()))
 			elif (item[:2] == '28'):
 				self.sensors.append(sensor(item.rstrip()))
-			
+
 	def getAllStatus(self):
 			outstr = ''
 			for x in range(0, len(self.slots)):
@@ -28,7 +28,7 @@ class drinkMachine():
 
 	def dropDrink(self, slotNumber):
 		return self.slots[slotNumber - 1].dropDrink()
-	
+
 	def getTemp(self):
 		if len(self.sensors) > 0:
 			#print self.sensors[0]
@@ -36,7 +36,7 @@ class drinkMachine():
 		else:
 			return -1
 
-	
+
 class slot():
 	def __init__ (self, idNumber):
 		self.idNumber = idNumber
@@ -44,34 +44,36 @@ class slot():
 
 	def getStatus(self):
 		try:
-			file = open(''.join(['/mnt/w1/',self.idNumber,'/id']))
-			print "Slot: " + self.idNumber + " active."
-			file.close()
+			#file = open(''.join(['/mnt/w1/',self.idNumber,'/id']))
+			#print "Slot: " + self.idNumber + " active."
+			#file.close()
+			print("Get Status Slot")
 		except IOError as e:
-			#print "I/O error({0}): {1}".format(e.errno, e.strerror)	
+			#print "I/O error({0}): {1}".format(e.errno, e.strerror)
 			print "Slot: " + self.idNumber + " disabled."
 			return False
-		return True 
-	
+		return True
+
 	def getLock(self):
 		return self.lock
 
 	def setLock(self):
 		self.lock = True
-	
+
 	def setUnlock(self):
 		self.lock = False
-	
+
 	def dropDrink(self):
 		if self.getStatus():
 			print "Slot Status: Good"
 			if not self.getLock():
 				print "Lock Status: Unlocked"
 				self.setLock()
-				try: 
-					subprocess.call("".join(["echo '1' > /mnt/w1/", self.idNumber,"/PIO"]), shell=True)
-					time.sleep(.5)
-					subprocess.call("".join(["echo '0' > /mnt/w1/", self.idNumber,"/PIO"]), shell=True)
+				try:
+					#subprocess.call("".join(["echo '1' > /mnt/w1/", self.idNumber,"/PIO"]), shell=True)
+					#time.sleep(.5)
+					#subprocess.call("".join(["echo '0' > /mnt/w1/", self.idNumber,"/PIO"]), shell=True)
+					print("Dropping Drink")
 				except IOError:
 					print ('shit keeps breaking because it is shit.')
 				time.sleep(2)
@@ -82,22 +84,25 @@ class slot():
 class sensor():
 	def __init__ (self, idNumber):
 		self.idNumber = idNumber
-	
+
 	def getStatus(self):
 		try:
-			file = open(''.join(['/mnt/w1/', self.idNumber, '/id']))
-			file.close()
+			#file = open(''.join(['/mnt/w1/', self.idNumber, '/id']))
+			#file.close()
+			print("get sensor status")
 		except IOError:
 			return False
 		return True
 
 	def getTemp(self):
 		try:
-			tempFile = open(''.join(['/mnt/w1/', self.idNumber, '/temperature12']))
-			text = tempFile.read()
-			tempFile.close()
+			#tempFile = open(''.join(['/mnt/w1/', self.idNumber, '/temperature12']))
+			#text = tempFile.read()
+			#tempFile.close()
 			#celsius from the onewire
-			temperature = text.strip()
+			#temperature = text.strip()
+			print("get temp")
+			temperature = 0
 			print "Celsius is: " + temperature
 			f_temperature = float(temperature) * (9.0/5) + 32
 			print "Farenheight is " + str(f_temperature)
@@ -111,5 +116,3 @@ class sensor():
 if __name__ == '__main__':
 	drinkmachine = drinkMachine()
 	print (drinkmachine.getAllStatus())
-	
-
