@@ -13,7 +13,7 @@ OPCODE_TINI_DROP = '3'
 OPCODE_TINI_SLOT_STATUS = '6'
 
 
-HOST = 'drinkjs.csh.rit.edu'
+HOST = 'austindrinktest.csh.rit.edu'
 PORT = 4343
 PASSWD = 'password'
 
