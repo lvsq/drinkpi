@@ -39,7 +39,7 @@ class PIClient(asyncore.dispatcher):
 		self.close()
 
 	def initiate_reconnect_with_server(self):
-		print("Attempting to reconnect to server..." + HOST + " " + PORT)
+		print("Attempting to reconnect to server..." + HOST + " " + str(PORT))
 		asyncore.dispatcher.__init__(self)
 		self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.connect((HOST, PORT))
@@ -51,7 +51,7 @@ class PIClient(asyncore.dispatcher):
 		noopThread.start()
 
 	def handle_error(self):
-		print("Problem reaching server..." + HOST +" "+ PORT)
+		print("Problem reaching server..." + HOST +" "+ str(PORT))
 		self.initiate_reconnect_with_server()
 
 	def commandSwitch(self,receivedBuffer):
