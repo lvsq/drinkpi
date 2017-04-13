@@ -1,7 +1,0 @@
-test.txt
-
-:Author: austinlevesque
-:Email: austinlevesque@Austins-MacBook-Pro.local
-:Date: 2017-04-13 17:31
-
-test
