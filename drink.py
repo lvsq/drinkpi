@@ -31,7 +31,7 @@ class drinkMachine():
 
 	def getTemp(self):
 		if len(self.sensors) > 0:
-			#print self.sensors[0]
+			print(self.sensors[0])
 			return self.sensors[0].getTemp()
 		else:
 			return -1
