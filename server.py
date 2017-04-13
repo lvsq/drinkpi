@@ -37,9 +37,9 @@ class PIClient(asyncore.dispatcher):
 
 	def handle_close(self):
 		self.close()
-	
+
 	def initiate_reconnect_with_server(self):
-		print("Attempting to reconnect to server...")
+		print("Attempting to reconnect to server..." + HOST + " " + PORT)
 		asyncore.dispatcher.__init__(self)
 		self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.connect((HOST, PORT))
@@ -51,13 +51,12 @@ class PIClient(asyncore.dispatcher):
 		noopThread.start()
 
 	def handle_error(self):
-		print("Problem reaching server...")
+		print("Problem reaching server..." + HOST +" "+ PORT)
 		self.initiate_reconnect_with_server()
-
 
 	def commandSwitch(self,receivedBuffer):
 		print ("RESERVES ARE LOW, FEED THE NEEDY")
-		print (receivedBuffer)	
+		print (receivedBuffer)
 		if OPCODE_TINI_LOGIN_ACK == receivedBuffer[0]:
 			print 'ACK!'
 		elif OPCODE_TINI_LOGIN_NACK in receivedBuffer[0]:
@@ -98,7 +97,7 @@ class PIClient(asyncore.dispatcher):
 		print 'writing ' + self.buffer
 		sent = self.send(self.buffer)
 		self.buffer = self.buffer[sent:]
-	
+
 	def noop(self):
 		#Use temp instead of noops because we have a sensor
 		temperature = self.drinkmachine.getTemp()
