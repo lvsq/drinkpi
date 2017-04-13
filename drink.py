@@ -103,7 +103,7 @@ class sensor():
 			#temperature = text.strip()
 			print("get temp")
 			temperature = 0
-			print "Celsius is: " + temperature
+			print "Celsius is: " + str(temperature)
 			f_temperature = float(temperature) * (9.0/5) + 32
 			print "Farenheight is " + str(f_temperature)
 			#print temperature
