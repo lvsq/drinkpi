@@ -85,7 +85,7 @@ class PIClient(asyncore.dispatcher):
 				#self.handle_write()
 				self.bufferLock = False
 		else:
-			print receivedBuffer
+			print receivedBuffer+"else"
 
 	def handle_read(self):
 		buffer = self.recv(8192)
