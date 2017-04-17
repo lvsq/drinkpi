@@ -14,7 +14,7 @@ OPCODE_TINI_SLOT_STATUS = '6'
 
 
 HOST = 'austindrinktest.csh.rit.edu'
-PORT = 4343
+PORT = 4242
 PASSWD = 'password'
 
 import asyncore, socket, time
