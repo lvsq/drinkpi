@@ -31,6 +31,7 @@ class PIClient(asyncore.dispatcher):
 		self.drinkmachine = drink.drinkMachine()
 		self.bufferLock = False
 		noopThread = self.noopThread(self)
+		noopThread.setDaemon(True)
 		noopThread.start()
 	def handle_connect(self):
 		pass
@@ -48,6 +49,7 @@ class PIClient(asyncore.dispatcher):
 		self.drinkmachine = drink.drinkMachine()
 		self.bufferLock = False
 		noopThread = self.noopThread(self)
+		noopThread.setDaemon(True)
 		noopThread.start()
 
 	def handle_error(self):
